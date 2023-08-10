@@ -16,7 +16,7 @@ public class Events implements Listener {
     public void onChat(AsyncChatEvent event) {
         event.setCancelled(true);
         var request = Request.of(event, plugin);
-        var subChat = plugin.getChat(request);
+        var subChat = plugin.getVaultChat(request);
         if (subChat == null || !subChat.canWrite(event.getPlayer())) {
             event.getPlayer().sendMessage("Don't have permission UwU");
             return;

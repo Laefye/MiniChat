@@ -2,9 +2,10 @@ package com.github.laefye.minichat;
 
 import com.github.laefye.minichat.config.Configuration;
 import com.github.laefye.minichat.chat.SubChat;
-import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+import net.milkbowl.vault.chat.Chat;
 
 import java.util.ArrayList;
 
@@ -15,6 +16,22 @@ public final class MiniChat extends JavaPlugin {
     public void onEnable() {
         loadConfig();
         getServer().getPluginManager().registerEvents(new Events(this), this);
+        setupVaultChat();
+    }
+
+    private Chat chat = null;
+
+    public Chat getVaultChat() {
+        return chat;
+    }
+
+    private void setupVaultChat() {
+        if (getServer().getPluginManager().getPlugin("Vault") == null) {
+            return;
+        }
+        RegisteredServiceProvider<Chat> rsp = getServer().getServicesManager().getRegistration(Chat.class);
+        chat = rsp.getProvider();
+        getLogger().info("Vault installed");
     }
 
     private void loadConfig() {
@@ -39,7 +56,7 @@ public final class MiniChat extends JavaPlugin {
         return chats.stream().filter(SubChat::isDefault).findFirst().orElse(chats.stream().findAny().orElse(null));
     }
 
-    public SubChat getChat(Request request) {
+    public SubChat getVaultChat(Request request) {
         var plain = PlainTextComponentSerializer.plainText().serialize(request.getMessage());
         for (var chat : chats) {
             if (chat.getPrefix() != null && plain.startsWith(chat.getPrefix())) {

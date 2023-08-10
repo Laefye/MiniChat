@@ -37,6 +37,7 @@ public class Segment {
     private final MiniMessage miniMessage = MiniMessage.miniMessage();
 
     private Component format(Request request, Component in) {
+        var vaultChat = request.getPlugin().getVaultChat();
         return in.replaceText(
                 TextReplacementConfig.builder()
                         .match(Pattern.compile("\\{player\\}"))
@@ -47,6 +48,18 @@ public class Segment {
                         TextReplacementConfig.builder()
                                 .match(Pattern.compile("\\{message\\}"))
                                 .replacement(request.getMessage())
+                                .build()
+                )
+                .replaceText(
+                        TextReplacementConfig.builder()
+                                .match(Pattern.compile("\\{prefix\\}"))
+                                .replacement(vaultChat != null ? vaultChat.getPlayerPrefix(request.getPlayer()) : "")
+                                .build()
+                )
+                .replaceText(
+                        TextReplacementConfig.builder()
+                                .match(Pattern.compile("\\{suffix\\}"))
+                                .replacement(vaultChat != null ? vaultChat.getPlayerSuffix(request.getPlayer()) : "")
                                 .build()
                 );
     }
