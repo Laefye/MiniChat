@@ -14,6 +14,7 @@ import java.util.Map;
 public class Configuration {
     private final MiniChat plugin;
     private final ArrayList<SubChat> chats = new ArrayList<>();
+    private LanguageConfig languageConfig = null;
     public Configuration(MiniChat plugin) {
         this.plugin = plugin;
     }
@@ -40,6 +41,11 @@ public class Configuration {
         for (var chatsEntry : chatsMap.entrySet()) {
             chats.add(getChat(chatsEntry.getKey(), (Map<String, Object>) chatsEntry.getValue()));
         }
+        languageConfig = new LanguageConfig((Map<String, String>) configMap.get("lang"));
+    }
+
+    public LanguageConfig getLanguageConfig() {
+        return languageConfig;
     }
 
     private SubChat getChat(String name, Map<String, Object> chat) {

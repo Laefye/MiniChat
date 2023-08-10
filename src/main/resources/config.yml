@@ -13,8 +13,7 @@ chats:
           - '{player} in local chat'
           - 'TPS %spark_tps%'
         command: '/msg {player}' # Suggest command when click
-      -
-        format: '-> {message}'
+      - format: '-> {message}'
   global:
     range: -1
     prefix: '!' # Prefix
@@ -23,3 +22,5 @@ chats:
       - format: '[G]'
       - format: ' {prefix}{player}{suffix} '
       - format: '-> {message}'
+lang:
+  permission: "<#ff0000>You don't have permissions</#ff0000>"

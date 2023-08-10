@@ -19,7 +19,7 @@ public class Events implements Listener {
         var request = Request.of(event, plugin);
         var subChat = plugin.getVaultChat(request);
         if (subChat == null || !subChat.canWrite(event.getPlayer())) {
-            event.getPlayer().sendMessage("Don't have permission UwU");
+            event.getPlayer().sendMessage(plugin.getLanguageConfig().getPhrase("permission"));
             return;
         }
         var done = subChat.compose(request);

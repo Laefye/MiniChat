@@ -1,7 +1,9 @@
 package com.github.laefye.minichat;
 
+import com.github.laefye.minichat.commands.MiniChatCommand;
 import com.github.laefye.minichat.config.Configuration;
 import com.github.laefye.minichat.chat.SubChat;
+import com.github.laefye.minichat.config.LanguageConfig;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -11,6 +13,7 @@ import java.util.ArrayList;
 
 public final class MiniChat extends JavaPlugin {
     private ArrayList<SubChat> chats;
+    private LanguageConfig languageConfig;
 
     @Override
     public void onEnable() {
@@ -18,6 +21,9 @@ public final class MiniChat extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new Events(this), this);
         setupVaultChat();
         setupPlaceholderAPI();
+        var command = new MiniChatCommand(this);
+        getCommand("minichat").setExecutor(command);
+        getCommand("minichat").setTabCompleter(command);
     }
 
     private boolean placeholderAPI = false;
@@ -55,6 +61,7 @@ public final class MiniChat extends JavaPlugin {
         for (var chat : chats) {
             getLogger().info("Loaded: " + chat.getName() + (chat.isDefault() ? " (default)" : ""));
         }
+        languageConfig = configuration.getLanguageConfig();
     }
 
     public ArrayList<SubChat> getChats() {
@@ -78,5 +85,9 @@ public final class MiniChat extends JavaPlugin {
             }
         }
         return getDefaultChat();
+    }
+
+    public LanguageConfig getLanguageConfig() {
+        return languageConfig;
     }
 }
