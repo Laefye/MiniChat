@@ -39,8 +39,8 @@ public final class MiniChat extends JavaPlugin {
         return chats.stream().filter(SubChat::isDefault).findFirst().orElse(chats.stream().findAny().orElse(null));
     }
 
-    public SubChat getChat(Component message) {
-        var plain = PlainTextComponentSerializer.plainText().serialize(message);
+    public SubChat getChat(Request request) {
+        var plain = PlainTextComponentSerializer.plainText().serialize(request.getMessage());
         for (var chat : chats) {
             if (chat.getPrefix() != null && plain.startsWith(chat.getPrefix())) {
                 return chat;

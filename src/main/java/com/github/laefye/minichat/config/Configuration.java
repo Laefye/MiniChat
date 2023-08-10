@@ -48,7 +48,7 @@ public class Configuration {
         var prefix = (String) chat.get("prefix");
         var isDefault = (boolean) chat.getOrDefault("default", false);
         var segments = getSegments((ArrayList<Map<String, Object>>) chat.getOrDefault("segments", new ArrayList<>()));
-        var ch = new SubChat(plugin, name);
+        var ch = new SubChat(name);
         ch.setRange(range);
         ch.setWorld(world);
         ch.setPrefix(prefix);

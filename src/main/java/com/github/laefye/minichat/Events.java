@@ -15,13 +15,14 @@ public class Events implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onChat(AsyncChatEvent event) {
         event.setCancelled(true);
-        var subChat = plugin.getChat(event.message());
+        var request = Request.of(event, plugin);
+        var subChat = plugin.getChat(request);
         if (subChat == null || !subChat.canWrite(event.getPlayer())) {
             event.getPlayer().sendMessage("Don't have permission UwU");
             return;
         }
-        var done = subChat.compose(event.getPlayer(), event.message());
-        var players = subChat.getAudience(event.getPlayer());
+        var done = subChat.compose(request);
+        var players = subChat.getAudience(request);
         for (var player : players) {
             player.sendMessage(done);
         }

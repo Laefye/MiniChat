@@ -1,6 +1,7 @@
 package com.github.laefye.minichat.chat;
 
 import com.github.laefye.minichat.MiniChat;
+import com.github.laefye.minichat.Request;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextReplacementConfig;
 import org.bukkit.entity.Player;
@@ -12,16 +13,14 @@ import java.util.regex.Pattern;
 
 public class SubChat {
     private final String name;
-    private final MiniChat plugin;
     private String world = "#all";
     private int range = -1;
     private String prefix = null;
     private ArrayList<Segment> segments = new ArrayList<>();
     private boolean isDefault = false;
 
-    public SubChat(MiniChat plugin, String name) {
+    public SubChat(String name) {
         this.name = name;
-        this.plugin = plugin;
     }
 
     public String getName() {
@@ -80,39 +79,39 @@ public class SubChat {
         this.isDefault = isDefault;
     }
 
-    public Component compose(Player player, Component message) {
+    public Component compose(Request request) {
         if (prefix != null) {
-            message = message.replaceText(
+            request.setMessage(request.getMessage().replaceText(
                     TextReplacementConfig.builder()
                             .match(Pattern.quote(prefix))
                             .replacement("")
                             .once()
                             .build()
-            );
+            ));
         }
         var done = Component.text();
         for (var segment : segments) {
-            done.append(segment.evaluate(player, message));
+            done.append(segment.evaluate(request));
         }
         return done.build();
     }
 
-    public Set<Player> getAudience(Player player) {
+    public Set<Player> getAudience(Request request) {
         var audience = new HashSet<Player>();
         if (world.equals("#current")) {
             if (range < 0) {
-                audience.addAll(player.getWorld().getPlayers().stream().filter(this::canRead).toList());
+                audience.addAll(request.getPlayer().getWorld().getPlayers().stream().filter(this::canRead).toList());
             } else {
                 audience.addAll(
-                        player.getWorld().getPlayers().stream()
+                        request.getPlayer().getWorld().getPlayers().stream()
                                 .filter(this::canRead)
-                                .filter(receiver -> isNear(player, receiver))
+                                .filter(receiver -> isNear(request.getPlayer(), receiver))
                                 .toList()
                 );
             }
         }
         if (world.equals("#all")) {
-            audience.addAll(plugin.getServer().getOnlinePlayers().stream().filter(this::canRead).toList());
+            audience.addAll(request.getPlugin().getServer().getOnlinePlayers().stream().filter(this::canRead).toList());
         }
         return audience;
     }

@@ -1,5 +1,6 @@
 package com.github.laefye.minichat.chat;
 
+import com.github.laefye.minichat.Request;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.JoinConfiguration;
 import net.kyori.adventure.text.TextReplacementConfig;
@@ -35,23 +36,23 @@ public class Segment {
 
     private final MiniMessage miniMessage = MiniMessage.miniMessage();
 
-    private Component format(Player player, Component message, Component in) {
+    private Component format(Request request, Component in) {
         return in.replaceText(
                 TextReplacementConfig.builder()
                         .match(Pattern.compile("\\{player\\}"))
-                        .replacement(player.displayName())
+                        .replacement(request.getPlayer().displayName())
                         .build()
                 )
                 .replaceText(
                         TextReplacementConfig.builder()
                                 .match(Pattern.compile("\\{message\\}"))
-                                .replacement(message)
+                                .replacement(request.getMessage())
                                 .build()
                 );
     }
 
-    private Component getLore(Player player, Component message) {
-        var components = lore.stream().map(s -> format(player, message, miniMessage.deserialize(s))).toList();
+    private Component getLore(Request request) {
+        var components = lore.stream().map(s -> format(request, miniMessage.deserialize(s))).toList();
         return Component.join(
                 JoinConfiguration.builder()
                         .separator(Component.newline())
@@ -60,10 +61,10 @@ public class Segment {
         );
     }
 
-    public Component evaluate(Player player, Component message) {
-        var component = format(player, message, miniMessage.deserialize(format));
+    public Component evaluate(Request request) {
+        var component = format(request, miniMessage.deserialize(format));
         if (lore != null) {
-            component = component.hoverEvent(HoverEvent.showText(getLore(player, message)));
+            component = component.hoverEvent(HoverEvent.showText(getLore(request)));
         }
         return component;
     }
