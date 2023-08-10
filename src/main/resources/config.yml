@@ -1,0 +1,21 @@
+chats:
+  # to read messages, player need have `minichat.chat.[chat name]` permission
+  # to write message, player need have `minichat.chat.[chat name].write` permisssion
+  local:
+    range: 10 # Maximal distance (-1 is everywhere)
+    world: '#current' # `#current` is one world, `#all` every world
+    default: true # Is default chat?
+    segments:
+      -
+        # MiniMessage support
+        format: '<#438df2>{prefix}{player}{suffix} </#438df2>'
+      -
+        format: '-> {message}'
+  global:
+    range: -1
+    prefix: '!' # Prefix
+    world: '#all'
+    segments:
+      - format: '[G]'
+      - format: ' {prefix}{player}{suffix} '
+      - format: '-> {message}'
