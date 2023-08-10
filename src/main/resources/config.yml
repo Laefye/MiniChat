@@ -9,6 +9,8 @@ chats:
       -
         # MiniMessage support
         format: '<#438df2>{prefix}{player}{suffix} </#438df2>'
+        lore: # When player hover
+          - '{player} in local chat'
       -
         format: '-> {message}'
   global:

@@ -67,8 +67,10 @@ public class Configuration {
 
     private Segment getSegment(Map<String, Object> segment) {
         var format = (String) segment.getOrDefault("format", "");
+        var lore = (ArrayList<String>) segment.get("lore");
         var s = new Segment();
         s.setFormat(format);
+        s.setLore(lore);
         return s;
     }
 
