@@ -12,6 +12,7 @@ chats:
         lore: # When player hover
           - '{player} in local chat'
           - 'TPS %spark_tps%'
+        command: '/msg {player}' # Suggest command when click
       -
         format: '-> {message}'
   global:
