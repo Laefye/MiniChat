@@ -14,7 +14,7 @@ public final class MiniChat extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        loadConfig();
+        reloadMiniChatConfig();
         getServer().getPluginManager().registerEvents(new Events(this), this);
         setupVaultChat();
         setupPlaceholderAPI();
@@ -48,7 +48,7 @@ public final class MiniChat extends JavaPlugin {
         getLogger().info("Vault installed");
     }
 
-    private void loadConfig() {
+    public void reloadMiniChatConfig() {
         var configuration = new Configuration(this);
         configuration.load();
         chats = configuration.getChats();

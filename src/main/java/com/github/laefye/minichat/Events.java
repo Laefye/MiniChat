@@ -1,6 +1,7 @@
 package com.github.laefye.minichat;
 
 import io.papermc.paper.event.player.AsyncChatEvent;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -26,5 +27,6 @@ public class Events implements Listener {
         for (var player : players) {
             player.sendMessage(done);
         }
+        plugin.getLogger().info("chat: " + PlainTextComponentSerializer.plainText().serialize(done));
     }
 }
