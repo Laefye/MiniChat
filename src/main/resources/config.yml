@@ -7,10 +7,11 @@ chats:
     default: true # Is default chat?
     segments:
       -
-        # MiniMessage support
+        # MiniMessage support and PlaceholderAPI
         format: '<#438df2>{prefix}{player}{suffix} </#438df2>'
         lore: # When player hover
           - '{player} in local chat'
+          - 'TPS %spark_tps%'
       -
         format: '-> {message}'
   global:

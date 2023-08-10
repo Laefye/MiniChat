@@ -17,6 +17,20 @@ public final class MiniChat extends JavaPlugin {
         loadConfig();
         getServer().getPluginManager().registerEvents(new Events(this), this);
         setupVaultChat();
+        setupPlaceholderAPI();
+    }
+
+    private boolean placeholderAPI = false;
+
+    public void setupPlaceholderAPI() {
+        placeholderAPI = getServer().getPluginManager().getPlugin("PlaceholderAPI") != null;
+        if (placeholderAPI) {
+            getLogger().info("PlaceholderAPI installed");
+        }
+    }
+
+    public boolean hasPlaceholderAPI() {
+        return placeholderAPI;
     }
 
     private Chat chat = null;

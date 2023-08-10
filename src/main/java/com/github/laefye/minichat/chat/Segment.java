@@ -1,6 +1,7 @@
 package com.github.laefye.minichat.chat;
 
 import com.github.laefye.minichat.Request;
+import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.JoinConfiguration;
 import net.kyori.adventure.text.TextReplacementConfig;
@@ -60,6 +61,16 @@ public class Segment {
                         TextReplacementConfig.builder()
                                 .match(Pattern.compile("\\{suffix\\}"))
                                 .replacement(vaultChat != null ? vaultChat.getPlayerSuffix(request.getPlayer()) : "")
+                                .build()
+                )
+                .replaceText(
+                        TextReplacementConfig.builder()
+                                .match(Pattern.compile("(%.+%)"))
+                                .replacement(builder -> request.getPlugin().hasPlaceholderAPI()
+                                        ? builder.content(PlaceholderAPI.setPlaceholders(
+                                                        request.getPlayer(),
+                                                        builder.content()
+                                                        )) : Component.text())
                                 .build()
                 );
     }

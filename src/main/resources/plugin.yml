@@ -4,3 +4,4 @@ main: com.github.laefye.minichat.MiniChat
 api-version: '1.20'
 softdepend:
   - Vault
+  - PlaceholderAPI
